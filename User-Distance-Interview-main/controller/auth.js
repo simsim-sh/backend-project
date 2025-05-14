@@ -73,10 +73,10 @@ exports.registerUser = async (req, response) => {
 
 exports.changeUserSatatus = async (req, res) => {
   try {
-    // Step 1: Fetch all users
+    // Fetch all users
     const users = await User.find();
 
-    // Step 2: Prepare bulk update operations
+    //  Prepare bulk update operations
     const updates = users.map((user) => ({
       updateOne: {
         filter: { _id: user._id },
@@ -86,7 +86,7 @@ exports.changeUserSatatus = async (req, res) => {
       },
     }));
 
-    // Step 3: Execute bulk write
+    //  Execute bulk write
     const updatedUser = await User.bulkWrite(updates);
 
     res.status(200).json({
@@ -177,7 +177,7 @@ exports.getUserListing = async (req, res) => {
     const grouped = {};
     for (const user of users) {
       const day = dayjs(user.createdAt).day();
-      // 0 = Sunday, 1 = Monday, 2 = Tuesday, 4 = Wednesday, 5 = Thrusday, 6 = Friday, 7 = Sunday
+      // 0 = Sunday, 1 = Monday, 2 = Tuesday, 3 = Wednesday, 4 = Thrusday, 5 = Friday, 6 = Sunday
       if (filterDays.includes(day)) {
         const dayName = dayjs().day(day).format("dddd").toLowerCase();
         if (!grouped[dayName]) grouped[dayName] = [];
